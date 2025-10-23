@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>God loves the Trinity - Divine Restaurant</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Navigation with Keyboard Navigation Support -->
+    <nav>
+        <div class="nav-container">
+            <h1>God loves the Trinity</h1>
+            <div class="nav-links">
+                <a href="#home" class="menu-item">Home</a>
+                <a href="#menu" class="menu-item">Menu</a>
+                <a href="#about" class="menu-item">About</a>
+                <a href="reserve.html" class="menu-item">Reserve</a>
+                <button id="theme-toggle" class="theme-btn">🌙 Night Mode</button>
+                <div class="cart-icon">
+                    🛒 <span id="cart-count">0</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Language Selector Section -->
+    <section class="language-section">
+        <div class="container">
+            <h2 id="welcome-text">Welcome to God loves the Trinity Restaurant</h2>
+            <div class="language-buttons">
+                <button onclick="restaurantApp.changeLanguage('en')" class="lang-btn">English</button>
+                <button onclick="restaurantApp.changeLanguage('ru')" class="lang-btn">Русский</button>
+                <button onclick="restaurantApp.changeLanguage('kz')" class="lang-btn">Қазақша</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Greeting Section with Time-based Message -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <h2 id="time-greeting">Welcome!</h2>
+            
+            <!-- User Name Input for Dynamic Greeting -->
+            <div class="greeting-input">
+                <input type="text" id="user-name" placeholder="Enter your name">
+                <button onclick="restaurantApp.updateGreeting()">Get Personal Greeting</button>
+            </div>
+            <h3 id="greeting"></h3>
+            
+            <!-- Current Time Display -->
+            <button onclick="restaurantApp.showCurrentTime()" class="time-btn">Show Current Time</button>
+            <div id="time-display" style="display: none; margin-top: 10px;"></div>
+        </div>
+    </section>
+
+    <!-- About Section with Read More -->
+    <section class="about-section">
+        <div class="container">
+            <h2>About Our Restaurant</h2>
+            <p>
+                God loves the Trinity is a divine dining experience where faith meets flavor. 
+                Our restaurant combines traditional recipes with modern culinary techniques.
+            </p>
+            <div id="more-content" style="display: none;">
+                <p>
+                    Founded in 2020, we have been serving the community with love and dedication. 
+                    Our chefs are passionate about creating dishes that not only satisfy your hunger 
+                    but also touch your soul. Every ingredient is carefully selected, every dish 
+                    is prepared with prayer, and every meal is served with love.
+                </p>
+                <p>
+                    We believe that food brings people together, just as faith unites communities. 
+                    Our mission is to provide a space where families and friends can gather, 
+                    share meals, and create lasting memories.
+                </p>
+            </div>
+            <button id="read-more-btn" onclick="restaurantApp.toggleReadMore()">Read More</button>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <div class="container">
+            <h2>Why Choose Us?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>🌿 Fresh Ingredients</h3>
+                    <p>We use only the freshest, locally sourced ingredients.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🏠 Cozy Atmosphere</h3>
+                    <p>Relax and enjoy the divine ambiance of our restaurant.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📖 Traditional Recipes</h3>
+                    <p>Our dishes are inspired by time-honored traditions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section with Filter -->
+    <section id="menu" class="menu-section">
+        <div class="container">
+            <h2>Our Divine Menu</h2>
+            
+            <!-- Category Filter Buttons -->
+            <div class="filter-buttons">
+                <button onclick="restaurantApp.displayFilteredMenu('all')" class="filter-btn active">All</button>
+                <button onclick="restaurantApp.displayFilteredMenu('starter')" class="filter-btn">Starters</button>
+                <button onclick="restaurantApp.displayFilteredMenu('main')" class="filter-btn">Main Courses</button>
+                <button onclick="restaurantApp.displayFilteredMenu('dessert')" class="filter-btn">Desserts</button>
+            </div>
+            
+            <!-- Menu Display Area -->
+            <div id="menu-display" class="menu-grid"></div>
+            
+            <!-- Cart Total -->
+            <div id="cart-total" class="cart-total"></div>
+        </div>
+    </section>
+
+    <!-- Rating Section -->
+    <section class="rating-section">
+        <div class="container">
+            <h2>Rate Your Experience</h2>
+            <p>How would you rate your visit to our restaurant?</p>
+            
+            <div id="rating-container" class="star-rating">
+                <span class="star" data-rating="1">★</span>
+                <span class="star" data-rating="2">★</span>
+                <span class="star" data-rating="3">★</span>
+                <span class="star" data-rating="4">★</span>
+                <span class="star" data-rating="5">★</span>
+            </div>
+            
+            <div id="rating-message" style="display: none;"></div>
+        </div>
+    </section>
+
+    <!-- Dynamic Content Section -->
+    <section class="quotes-section">
+        <div class="container">
+            <h2>Food Wisdom</h2>
+            <button id="load-more-btn" onclick="restaurantApp.loadMoreContent()">Load Inspirational Quote</button>
+            <div id="dynamic-content"></div>
+        </div>
+    </section>
+
+    <!-- Image Gallery Section -->
+    <section class="gallery-section">
+        <div class="container">
+            <h2>Our Restaurant Gallery</h2>
+            
+            <div class="main-image-container">
+                <img id="main-image" src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800" alt="Restaurant" class="main-gallery-image">
+            </div>
+            
+            <div class="thumbnail-container">
+                <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=200" 
+                     alt="Thumbnail 4" 
+                     class="thumbnail"
+                     onclick="restaurantApp.changeMainImage('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800')">
+            </div>
+        </div>
+    </section>
+
+    <!-- Reservation Form Section -->
+    <section class="reservation-section">
+        <div class="container">
+            <h2>Make a Reservation</h2>
+            
+            <form id="reservation-form">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone:</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="date">Date:</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="time">Time:</label>
+                    <input type="time" id="time" name="time" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="guests">Number of Guests:</label>
+                    <input type="number" id="guests" name="guests" min="1" max="20" required>
+                </div>
+                
+                <div class="form-buttons">
+                    <button type="submit" class="submit-btn">Submit Reservation</button>
+                    <button type="button" onclick="restaurantApp.resetForm('reservation-form')" class="reset-btn">Reset Form</button>
+                </div>
+            </form>
+            
+            <div id="form-message" style="display: none;"></div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 God loves the Trinity. All rights reserved.</p>
+            <p>Use Arrow Keys to navigate menu items | Press Enter to select</p>
+        </div>
+    </footer>
+
+    <script src="enhanced-script.js"></script>
+</body>
+</html>photo-1517248135467-4c7edcad34c4?w=200" 
+                     alt="Thumbnail 1" 
+                     class="thumbnail"
+                     onclick="restaurantApp.changeMainImage('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800')">
+                
+                <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=200" 
+                     alt="Thumbnail 2" 
+                     class="thumbnail"
+                     onclick="restaurantApp.changeMainImage('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=800')">
+                
+                <img src="https://images.unsplash.com/photo-1590846406792-0adc7f938f1d?w=200" 
+                     alt="Thumbnail 3" 
+                     class="thumbnail"
+                     onclick="restaurantApp.changeMainImage('https://images.unsplash.com/photo-1590846406792-0adc7f938f1d?w=800')">
+                
+                <img src="https://images.unsplash.com/
