@@ -7,21 +7,20 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Header with Navigation -->
+  <!-- Task 1: Flexbox Header / Nav -->
   <header class="main-header">
     <div class="logo">God loves the Trinity</div>
     <nav class="navigation">
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="menu.html">Menu</a></li>
-        <li><a href="about.html">About Us</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li><a href="reserve.html">Reservations</a></li>
-        <li><a href="gallery.html">Gallery</a></li>
-        <li><button id="subscribe-btn" class="subscribe-button">Subscribe</button></li>
-        <li><button id="theme-toggle" class="subscribe-button">🌙 Night Mode</button></li>
-      </ul>
-    </nav>
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="menu.html">Menu</a></li>
+    <li><a href="about.html">About Us</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="reserve.html">Reservations</a></li>
+    <li><a href="gallery.html">Gallery</a></li>
+    <li><button id="subscribe-btn" class="subscribe-button">Subscribe</button></li>
+  </ul>
+</nav>
   </header>
 
   <main>
@@ -30,20 +29,17 @@
       <p class="highlighted-text">We'd love to hear from you!</p>
     </section>
 
-    <!-- Time-based Greeting -->
-    <section id="time-greeting"></section>
-
     <section class="contact-info" style="display:grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap:16px; margin:20px;">
       <div class="info-box" style="background:#fff; padding:16px; border-radius:8px;">
-        <h3>📍 Location</h3>
+        <h3>Location</h3>
         <p>123 Divine Street<br>Heaven's Gate City<br>State 12345</p>
       </div>
       <div class="info-box" style="background:#fff; padding:16px; border-radius:8px;">
-        <h3>📞 Phone</h3>
+        <h3>Phone</h3>
         <p>(555) 123-HOLY<br>(555) 123-4659</p>
       </div>
       <div class="info-box" style="background:#fff; padding:16px; border-radius:8px;">
-        <h3>🕐 Hours</h3>
+        <h3>Hours</h3>
         <p>Mon-Thu: 11am-9pm<br>Fri-Sat: 11am-10pm<br>Sun: 12pm-8pm</p>
       </div>
     </section>
@@ -53,13 +49,13 @@
       <p>Have a question, comment, or special request? We're here to help! Fill out the form below and we'll get back to you as soon as possible.</p>
     </section>
 
-    <form class="contact-form" id="contact-form" style="max-width:700px; margin: 0 auto; background:#fff; padding:20px; border-radius:8px;">
+    <form class="contact-form" style="max-width:700px; margin: 0 auto; background:#fff; padding:20px; border-radius:8px;">
       <div class="form-group">
-        <label for="name">Full Name: <span style="color: red;">*</span></label>
+        <label for="name">Full Name:</label>
         <input type="text" id="name" name="name" required>
       </div>
       <div class="form-group">
-        <label for="email">Email Address: <span style="color: red;">*</span></label>
+        <label for="email">Email Address:</label>
         <input type="email" id="email" name="email" required>
       </div>
       <div class="form-group">
@@ -67,7 +63,7 @@
         <input type="tel" id="phone" name="phone">
       </div>
       <div class="form-group">
-        <label for="subject">Subject: <span style="color: red;">*</span></label>
+        <label for="subject">Subject:</label>
         <select id="subject" name="subject" required>
           <option value="">Please select...</option>
           <option value="general">General Inquiry</option>
@@ -79,7 +75,7 @@
         </select>
       </div>
       <div class="form-group">
-        <label for="message">Message: <span style="color: red;">*</span></label>
+        <label for="message">Message:</label>
         <textarea id="message" name="message" rows="6" placeholder="Please enter your message here..." required></textarea>
       </div>
       <button type="submit" class="submit-btn">Send Message</button>
@@ -88,7 +84,7 @@
     <section class="about-content">
       <h2>Visit Our Restaurant</h2>
       <p>Located in the heart of Heaven's Gate City, our restaurant is easily accessible by car or public transportation. We offer free parking for our guests.</p>
-      <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&h=300&fit=crop" alt="Restaurant exterior" class="banner-image" style="border-radius: 10px; margin: 20px 0;">
+      <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&h=300&fit=crop" alt="Restaurant exterior" class="banner-image">
       <p>Our beautiful dining room can accommodate both intimate dinners for two and larger group celebrations. We also offer private dining options for special events.</p>
     </section>
 
@@ -99,7 +95,7 @@
     </section>
   </main>
 
-  <!-- Popup Subscription Form -->
+  <!-- TASK 3: Popup Subscription Form -->
   <div id="subscription-popup" class="popup-overlay">
     <div class="popup-content">
       <span id="close-popup" class="close-btn">&times;</span>
@@ -115,10 +111,12 @@
   <footer>
     <p>&copy; 2024 God loves the Trinity Restaurant. All rights reserved.</p>
     <p>Address: 123 Divine Street, Heaven's Gate City</p>
+    <!-- TASK 5: Current Date and Time -->
     <p class="datetime-display">Current time: <span id="current-datetime"></span></p>
     <p class="team-members">Team: Newcomers(Chingiz, Sultan, Kaisar) Group: SE-2405</p>
   </footer>
 
+  <!-- JavaScript -->
   <script src="script.js"></script>
 </body>
 </html>
