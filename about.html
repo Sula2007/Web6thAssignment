@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Task 1: Flexbox Header / Nav -->
+  <!-- Header with Navigation -->
   <header class="main-header">
     <div class="logo">God loves the Trinity</div>
     <nav class="navigation">
@@ -18,8 +18,15 @@
         <li><a href="contact.html">Contact</a></li>
         <li><a href="reserve.html">Reservations</a></li>
         <li><a href="gallery.html">Gallery</a></li>
-        <!-- TASK 3: Popup subscription button -->
         <li><button id="subscribe-btn" class="subscribe-button">Subscribe</button></li>
+        <li><button id="theme-toggle-btn">🌙 Night Mode</button></li>
+        <li>
+          <select id="language-selector">
+            <option value="en">English</option>
+            <option value="ru">Русский</option>
+            <option value="kz">Қазақша</option>
+          </select>
+        </li>
       </ul>
     </nav>
   </header>
@@ -31,7 +38,7 @@
            alt="Restaurant dining room" class="banner-image">
     </section>
 
-    <section class="about-content">
+    <section class="about-content animate-on-scroll">
       <h2>Our Story</h2>
       <p>God loves the Trinity restaurant was established in 2018 with a simple mission: to create a place where
         people can come together to share exceptional food in a peaceful, welcoming atmosphere. Our name
@@ -45,7 +52,7 @@
         innovations.</p>
     </section>
 
-    <section class="chef-info" style="display:flex; gap:20px; align-items:center; margin: 20px;">
+    <section class="chef-info animate-on-scroll" style="display:flex; gap:20px; align-items:center; margin: 20px;">
       <img src="https://images.unsplash.com/photo-1541614101331-1a5a3a194e92?q=80&w=1065&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
            alt="Head Chef" class="chef-photo" style="border-radius: 12px;">
       <div class="chef-text">
@@ -59,7 +66,7 @@
       </div>
     </section>
 
-    <section class="about-content">
+    <section class="about-content animate-on-scroll">
       <h2>Our Philosophy</h2>
       <p>At God loves the Trinity, we believe that food is more than just nourishment - it's a way to bring people
         together, create memories, and celebrate life's special moments.</p>
@@ -74,8 +81,8 @@
       </ul>
     </section>
 
-    <!-- TASK 2: Accordion FAQ Section -->
-    <section class="about-content">
+    <!-- EXISTING: Accordion FAQ Section -->
+    <section class="about-content animate-on-scroll">
       <h2>Frequently Asked Questions</h2>
       <div class="accordion">
         <div class="accordion-item">
@@ -130,7 +137,7 @@
       </div>
     </section>
 
-    <section class="about-content">
+    <section class="about-content animate-on-scroll">
       <h2>Our Values</h2>
       <div class="features-section" style="display:grid; grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); gap:16px;">
         <div class="feature-box" style="background:#fff; padding:16px; border-radius:8px;">
@@ -151,14 +158,28 @@
       </div>
     </section>
 
-    <section class="cta-section">
+    <!-- NEW: Star Rating Section -->
+    <section class="rating-container animate-on-scroll">
+      <h2>Rate Our Service</h2>
+      <p>How was your experience with us?</p>
+      <div class="rating-stars">
+        <span class="star">★</span>
+        <span class="star">★</span>
+        <span class="star">★</span>
+        <span class="star">★</span>
+        <span class="star">★</span>
+      </div>
+      <p class="rating-text">Click a star to rate</p>
+    </section>
+
+    <section class="cta-section animate-on-scroll">
       <h2>Visit Us Today</h2>
       <p>We'd love to welcome you to our restaurant family</p>
       <a href="reserve.html" class="button-style">Make a Reservation</a>
     </section>
   </main>
 
-  <!-- TASK 3: Popup Subscription Form -->
+  <!-- Popup Subscription Form -->
   <div id="subscription-popup" class="popup-overlay">
     <div class="popup-content">
       <span id="close-popup" class="close-btn">&times;</span>
@@ -174,12 +195,10 @@
   <footer>
     <p>&copy; 2024 God loves the Trinity Restaurant. All rights reserved.</p>
     <p>Address: 123 Divine Street, Heaven's Gate City</p>
-    <!-- TASK 5: Current Date and Time -->
     <p class="datetime-display">Current time: <span id="current-datetime"></span></p>
     <p class="team-members">Team: Newcomers(Chingiz, Sultan, Kaisar) Group: SE-2405</p>
   </footer>
 
-  <!-- JavaScript -->
   <script src="script.js"></script>
 </body>
 </html>
