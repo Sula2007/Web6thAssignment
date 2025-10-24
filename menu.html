@@ -7,21 +7,28 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Task 1: Flexbox Header / Nav -->
+  <!-- Header with Navigation -->
   <header class="main-header">
     <div class="logo">God loves the Trinity</div>
-   <nav class="navigation">
-  <ul>
-    <li><a href="index.html">Home</a></li>
-    <li><a href="menu.html">Menu</a></li>
-    <li><a href="about.html">About Us</a></li>
-    <li><a href="contact.html">Contact</a></li>
-    <li><a href="reserve.html">Reservations</a></li>
-    <li><a href="gallery.html">Gallery</a></li>
-    <li><a href="features-demo.html">Features</a></li> <!-- ← НОВАЯ СТРОКА -->
-    <li><button id="subscribe-btn" class="subscribe-button">Subscribe</button></li>
-  </ul>
-</nav>
+    <nav class="navigation">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="reserve.html">Reservations</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><button id="subscribe-btn" class="subscribe-button">Subscribe</button></li>
+        <li><button id="theme-toggle-btn">🌙 Night Mode</button></li>
+        <li>
+          <select id="language-selector">
+            <option value="en">English</option>
+            <option value="ru">Русский</option>
+            <option value="kz">Қазақша</option>
+          </select>
+        </li>
+      </ul>
+    </nav>
   </header>
 
   <main>
@@ -30,8 +37,21 @@
       <p class="highlighted-text">All dishes are prepared with love and the finest ingredients</p>
     </section>
 
-    <!-- Keep your existing menu sections -->
-    <section class="menu-section">
+    <!-- NEW: Menu Filter Section -->
+    <section class="filter-section animate-on-scroll">
+      <h2>Filter Our Menu</h2>
+      <p>Find exactly what you're looking for</p>
+      <div class="filter-buttons">
+        <button class="filter-btn" data-category="appetizer">🥗 Appetizers</button>
+        <button class="filter-btn" data-category="main">🍽️ Main Courses</button>
+        <button class="filter-btn" data-category="dessert">🍰 Desserts</button>
+        <button class="filter-btn" data-category="vegetarian">🌱 Vegetarian</button>
+      </div>
+      <div id="filtered-menu"></div>
+    </section>
+
+    <!-- EXISTING: Menu Sections -->
+    <section class="menu-section animate-on-scroll">
       <h2>Appetizers</h2>
       <div class="menu-item">
         <div>
@@ -56,7 +76,7 @@
       </div>
     </section>
 
-    <section class="menu-section">
+    <section class="menu-section animate-on-scroll">
       <h2>Main Courses</h2>
       <div class="menu-item">
         <div>
@@ -88,7 +108,7 @@
       </div>
     </section>
 
-    <section class="menu-section">
+    <section class="menu-section animate-on-scroll">
       <h2>Desserts</h2>
       <div class="menu-item">
         <div>
@@ -113,7 +133,7 @@
       </div>
     </section>
 
-    <section class="menu-section">
+    <section class="menu-section animate-on-scroll">
       <h2>Beverages</h2>
       <div class="menu-item">
         <div>
@@ -138,14 +158,31 @@
       </div>
     </section>
 
-    <div class="cta-section">
+    <!-- NEW: Load More Button -->
+    <button id="load-more-btn">Load More Items</button>
+
+    <!-- NEW: Star Rating Section -->
+    <section class="rating-container animate-on-scroll">
+      <h2>Rate Our Menu</h2>
+      <p>How would you rate our food?</p>
+      <div class="rating-stars">
+        <span class="star">★</span>
+        <span class="star">★</span>
+        <span class="star">★</span>
+        <span class="star">★</span>
+        <span class="star">★</span>
+      </div>
+      <p class="rating-text">Click a star to rate</p>
+    </section>
+
+    <div class="cta-section animate-on-scroll">
       <h2>Ready to Dine?</h2>
       <p>Make a reservation to secure your table</p>
       <a href="reserve.html" class="button-style">Book Now</a>
     </div>
   </main>
 
-  <!-- TASK 3: Popup Subscription Form -->
+  <!-- Popup Subscription Form -->
   <div id="subscription-popup" class="popup-overlay">
     <div class="popup-content">
       <span id="close-popup" class="close-btn">&times;</span>
@@ -161,12 +198,10 @@
   <footer>
     <p>&copy; 2024 God loves the Trinity Restaurant. All rights reserved.</p>
     <p>Address: 123 Divine Street, Heaven's Gate City</p>
-    <!-- TASK 5: Current Date and Time -->
     <p class="datetime-display">Current time: <span id="current-datetime"></span></p>
     <p class="team-members">Team: Newcomers(Chingiz, Sultan, Kaisar) Group: SE-2405</p>
   </footer>
 
-  <!-- JavaScript -->
   <script src="script.js"></script>
 </body>
 </html>
