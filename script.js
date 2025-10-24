@@ -1,613 +1,6 @@
-// ============================================
-// ASSIGNMENT 6: ADVANCED JAVASCRIPT
-// Team: Newcomers (Chingiz, Sultan, Kaisar)
-// Group: SE-2405
-// ============================================
-
-// ============================================
-// PART 1: DOM MANIPULATION AND STYLING
-// ============================================
-
-// 1.1 Dynamic Content Update - Greeting with Name Input
-// Author: Chingiz
-function updateDynamicGreeting() {
-  const nameInput = document.getElementById('dynamic-name-input');
-  const greetingDisplay = document.getElementById('dynamic-greeting');
-  
-  if (nameInput && greetingDisplay) {
-    const userName = nameInput.value.trim() || 'Guest';
-    greetingDisplay.textContent = `Welcome to God loves the Trinity, ${userName}!`;
-    greetingDisplay.style.color = '#8B4513';
-    greetingDisplay.style.fontWeight = 'bold';
-  }
-}
-
-// 1.2 Rating System with Stars
-// Author: Sultan
-function initializeRatingSystem() {
-  const stars = document.querySelectorAll('.rating-star');
-  const ratingValue = document.getElementById('rating-value');
-  
-  stars.forEach((star, index) => {
-    star.addEventListener('click', () => {
-      // Reset all stars
-      stars.forEach(s => {
-        s.textContent = '☆';
-        s.style.color = '#ccc';
-      });
-      
-      // Fill selected stars
-      for (let i = 0; i <= index; i++) {
-        stars[i].textContent = '★';
-        stars[i].style.color = '#FFD700';
-      }
-      
-      // Update rating display
-      if (ratingValue) {
-        ratingValue.textContent = `Your Rating: ${index + 1} / 5`;
-        ratingValue.style.color = '#8B4513';
-      }
-      
-      // Play sound effect
-      playClickSound();
-    });
-    
-    // Hover effect
-    star.addEventListener('mouseenter', () => {
-      star.style.transform = 'scale(1.3)';
-    });
-    
-    star.addEventListener('mouseleave', () => {
-      star.style.transform = 'scale(1)';
-    });
-  });
-}
-
-// 1.3 Day/Night Theme Toggle
-// Author: Kaisar
-function toggleDayNightTheme() {
-  const body = document.body;
-  const themeButton = document.getElementById('theme-toggle-btn');
-  
-  body.classList.toggle('night-theme');
-  
-  if (body.classList.contains('night-theme')) {
-    // Night mode
-    body.style.backgroundColor = '#1a1a1a';
-    body.style.color = '#f5f5f5';
-    if (themeButton) {
-      themeButton.textContent = '☀️ Day Mode';
-      themeButton.style.background = '#FFD700';
-      themeButton.style.color = '#000';
-    }
-  } else {
-    // Day mode
-    body.style.backgroundColor = '#f5f5f0';
-    body.style.color = '#333';
-    if (themeButton) {
-      themeButton.textContent = '🌙 Night Mode';
-      themeButton.style.background = '#8B4513';
-      themeButton.style.color = '#fff';
-    }
-  }
-}
-
-// 1.4 Image Gallery - Change Main Image on Thumbnail Click
-// Author: Chingiz
-function setupImageGallery() {
-  const thumbnails = document.querySelectorAll('.thumbnail-image');
-  const mainImage = document.getElementById('gallery-main-image');
-  
-  thumbnails.forEach(thumb => {
-    thumb.addEventListener('click', () => {
-      if (mainImage) {
-        mainImage.src = thumb.src;
-        mainImage.style.transform = 'scale(0.95)';
-        
-        setTimeout(() => {
-          mainImage.style.transform = 'scale(1)';
-        }, 200);
-      }
-    });
-  });
-}
-
-// 1.5 Read More Toggle
-// Author: Sultan
-function toggleReadMore() {
-  const moreContent = document.getElementById('read-more-content');
-  const readMoreBtn = document.getElementById('read-more-btn');
-  
-  if (moreContent && readMoreBtn) {
-    if (moreContent.style.display === 'none' || !moreContent.style.display) {
-      moreContent.style.display = 'block';
-      readMoreBtn.textContent = 'Read Less';
-      readMoreBtn.style.backgroundColor = '#654321';
-    } else {
-      moreContent.style.display = 'none';
-      readMoreBtn.textContent = 'Read More';
-      readMoreBtn.style.backgroundColor = '#8B4513';
-    }
-  }
-}
-
-// ============================================
-// PART 2: EVENT HANDLING
-// ============================================
-
-// 2.1 Display Current Time Button
-// Author: Chingiz
-function displayCurrentTime() {
-  const timeDisplay = document.getElementById('current-time-display');
-  if (timeDisplay) {
-    const now = new Date();
-    const timeString = now.toLocaleTimeString('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      hour12: true
-    });
-    
-    timeDisplay.textContent = `Current Time: ${timeString}`;
-    timeDisplay.style.fontSize = '1.3rem';
-    timeDisplay.style.color = '#8B4513';
-    timeDisplay.style.fontWeight = 'bold';
-    
-    // Animation
-    timeDisplay.style.transform = 'scale(1.1)';
-    setTimeout(() => {
-      timeDisplay.style.transform = 'scale(1)';
-    }, 300);
-    
-    playClickSound();
-  }
-}
-
-// 2.2 Reset Form Button
-// Author: Sultan
-function resetAllForms() {
-  const inputs = document.querySelectorAll('input');
-  const textareas = document.querySelectorAll('textarea');
-  const selects = document.querySelectorAll('select');
-  
-  inputs.forEach(input => {
-    if (input.type !== 'button' && input.type !== 'submit') {
-      input.value = '';
-      input.style.borderColor = '';
-    }
-  });
-  
-  textareas.forEach(textarea => {
-    textarea.value = '';
-    textarea.style.borderColor = '';
-  });
-  
-  selects.forEach(select => {
-    select.selectedIndex = 0;
-  });
-  
-  // Remove error messages
-  const errors = document.querySelectorAll('.error-message');
-  errors.forEach(error => error.remove());
-  
-  alert('All forms have been reset!');
-  playClickSound();
-}
-
-// 2.3 Keyboard Navigation for Menu
-// Author: Kaisar
-function initializeKeyboardNavigation() {
-  const menuItems = document.querySelectorAll('.navigation a');
-  let currentIndex = -1;
-  
-  document.addEventListener('keydown', (e) => {
-    if (menuItems.length === 0) return;
-    
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-      e.preventDefault();
-      currentIndex = (currentIndex + 1) % menuItems.length;
-      menuItems[currentIndex].focus();
-      menuItems[currentIndex].style.outline = '2px solid #8B4513';
-    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-      e.preventDefault();
-      currentIndex = (currentIndex - 1 + menuItems.length) % menuItems.length;
-      menuItems[currentIndex].focus();
-      menuItems[currentIndex].style.outline = '2px solid #8B4513';
-    } else if (e.key === 'Enter' && currentIndex >= 0) {
-      menuItems[currentIndex].click();
-    }
-  });
-  
-  // Remove outline on blur
-  menuItems.forEach(item => {
-    item.addEventListener('blur', () => {
-      item.style.outline = '';
-    });
-  });
-}
-
-// 2.4 Contact Form with Async Submission (Callback)
-// Author: Chingiz
-function setupContactFormAsync() {
-  const contactForm = document.querySelector('.contact-form');
-  
-  if (contactForm && !contactForm.dataset.asyncSetup) {
-    contactForm.dataset.asyncSetup = 'true';
-    
-    contactForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      
-      const formData = {
-        name: document.getElementById('name')?.value,
-        email: document.getElementById('email')?.value,
-        phone: document.getElementById('phone')?.value,
-        subject: document.getElementById('subject')?.value,
-        message: document.getElementById('message')?.value
-      };
-      
-      // Show loading state
-      const submitBtn = contactForm.querySelector('.submit-btn');
-      const originalText = submitBtn.textContent;
-      submitBtn.textContent = 'Sending...';
-      submitBtn.disabled = true;
-      
-      // Simulate async submission with callback
-      handleAsyncSubmission(formData, (success, message) => {
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-        
-        if (success) {
-          alert('✓ ' + message);
-          contactForm.reset();
-          playSuccessSound();
-        } else {
-          alert('✗ ' + message);
-        }
-      });
-    });
-  }
-}
-
-function handleAsyncSubmission(data, callback) {
-  // Simulate API call with setTimeout
-  setTimeout(() => {
-    console.log('Form submitted:', data);
-    const success = Math.random() > 0.1; // 90% success rate
-    
-    if (success) {
-      callback(true, 'Your message has been sent successfully! We will contact you soon.');
-    } else {
-      callback(false, 'There was an error sending your message. Please try again.');
-    }
-  }, 1500);
-}
-
-// 2.5 Switch Statement - Menu Category Filter
-// Author: Sultan
-function filterMenuByCategory(category) {
-  const menuSections = document.querySelectorAll('.menu-section');
-  
-  switch(category) {
-    case 'all':
-      menuSections.forEach(section => {
-        section.style.display = 'block';
-      });
-      break;
-      
-    case 'appetizers':
-      menuSections.forEach(section => {
-        if (section.querySelector('h2').textContent.toLowerCase().includes('appetizer')) {
-          section.style.display = 'block';
-        } else {
-          section.style.display = 'none';
-        }
-      });
-      break;
-      
-    case 'main':
-      menuSections.forEach(section => {
-        if (section.querySelector('h2').textContent.toLowerCase().includes('main')) {
-          section.style.display = 'block';
-        } else {
-          section.style.display = 'none';
-        }
-      });
-      break;
-      
-    case 'desserts':
-      menuSections.forEach(section => {
-        if (section.querySelector('h2').textContent.toLowerCase().includes('dessert')) {
-          section.style.display = 'block';
-        } else {
-          section.style.display = 'none';
-        }
-      });
-      break;
-      
-    case 'beverages':
-      menuSections.forEach(section => {
-        if (section.querySelector('h2').textContent.toLowerCase().includes('beverage')) {
-          section.style.display = 'block';
-        } else {
-          section.style.display = 'none';
-        }
-      });
-      break;
-      
-    default:
-      menuSections.forEach(section => {
-        section.style.display = 'block';
-      });
-  }
-  
-  playClickSound();
-}
-
-// Switch Statement - Time-based Greeting
-// Author: Kaisar
-function displayTimeBasedGreeting() {
-  const greetingElement = document.getElementById('time-based-greeting');
-  if (!greetingElement) return;
-  
-  const hour = new Date().getHours();
-  let greeting, emoji, color;
-  
-  switch(true) {
-    case (hour >= 5 && hour < 12):
-      greeting = 'Good Morning';
-      emoji = '🌅';
-      color = '#FF8C00';
-      break;
-      
-    case (hour >= 12 && hour < 17):
-      greeting = 'Good Afternoon';
-      emoji = '☀️';
-      color = '#FFD700';
-      break;
-      
-    case (hour >= 17 && hour < 21):
-      greeting = 'Good Evening';
-      emoji = '🌆';
-      color = '#FF6347';
-      break;
-      
-    default:
-      greeting = 'Good Night';
-      emoji = '🌙';
-      color = '#4169E1';
-  }
-  
-  greetingElement.textContent = `${emoji} ${greeting}! Welcome to God loves the Trinity`;
-  greetingElement.style.color = color;
-  greetingElement.style.fontSize = '1.5rem';
-  greetingElement.style.fontWeight = 'bold';
-}
-
-// ============================================
-// PART 3: ADVANCED JAVASCRIPT CONCEPTS
-// ============================================
-
-// 3.1 Objects and Methods
-// Author: Chingiz
-const restaurantInfo = {
-  name: 'God loves the Trinity',
-  location: '123 Divine Street, Heaven\'s Gate City',
-  established: 2018,
-  specialties: ['Italian Cuisine', 'Divine Pasta', 'Heavenly Desserts'],
-  
-  displayInfo() {
-    return `${this.name} - Serving divine food since ${this.established}`;
-  },
-  
-  getSpecialties() {
-    return this.specialties.join(', ');
-  },
-  
-  addSpecialty(specialty) {
-    this.specialties.push(specialty);
-  }
-};
-
-function showRestaurantInfo() {
-  const infoDisplay = document.getElementById('restaurant-info-display');
-  if (infoDisplay) {
-    infoDisplay.innerHTML = `
-      <h3>${restaurantInfo.displayInfo()}</h3>
-      <p><strong>Location:</strong> ${restaurantInfo.location}</p>
-      <p><strong>Our Specialties:</strong> ${restaurantInfo.getSpecialties()}</p>
-    `;
-    infoDisplay.style.padding = '20px';
-    infoDisplay.style.backgroundColor = '#FFF8DC';
-    infoDisplay.style.borderRadius = '8px';
-    infoDisplay.style.marginTop = '15px';
-  }
-}
-
-// 3.2 Arrays and Loops
-// Author: Sultan
-const menuHighlights = [
-  { name: 'Trinity Pasta', price: 16.99, category: 'Main Course' },
-  { name: 'Blessed Burger', price: 14.50, category: 'Main Course' },
-  { name: 'Heavenly Salmon', price: 19.75, category: 'Main Course' },
-  { name: 'Divine Chocolate Mousse', price: 8.50, category: 'Dessert' },
-  { name: 'Angel Food Cake', price: 6.99, category: 'Dessert' }
-];
-
-function displayMenuHighlights() {
-  const container = document.getElementById('menu-highlights-container');
-  if (!container) return;
-  
-  let html = '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">';
-  
-  for (let i = 0; i < menuHighlights.length; i++) {
-    const item = menuHighlights[i];
-    html += `
-      <div class="highlight-card" style="background: #fff; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: transform 0.3s;">
-        <h4 style="color: #8B4513; margin-bottom: 10px;">${item.name}</h4>
-        <p style="color: #666;">${item.category}</p>
-        <p style="color: #8B4513; font-weight: bold; font-size: 1.2rem;">$${item.price}</p>
-      </div>
-    `;
-  }
-  
-  html += '</div>';
-  container.innerHTML = html;
-  
-  // Add hover animation
-  const cards = container.querySelectorAll('.highlight-card');
-  cards.forEach(card => {
-    card.addEventListener('mouseenter', () => {
-      card.style.transform = 'translateY(-5px)';
-    });
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = 'translateY(0)';
-    });
-  });
-}
-
-// 3.3 Higher-Order Functions
-// Author: Kaisar
-
-// map() - Get all menu item names
-function getAllMenuNames() {
-  return menuHighlights.map(item => item.name);
-}
-
-// filter() - Get items by price range
-function filterByPrice(maxPrice) {
-  return menuHighlights.filter(item => item.price <= maxPrice);
-}
-
-// forEach() - Display each item with custom formatting
-function displayMenuWithForEach() {
-  const container = document.getElementById('foreach-display');
-  if (!container) return;
-  
-  container.innerHTML = '<h3>Menu Items:</h3>';
-  
-  menuHighlights.forEach((item, index) => {
-    const itemDiv = document.createElement('div');
-    itemDiv.style.padding = '10px';
-    itemDiv.style.marginBottom = '5px';
-    itemDiv.style.backgroundColor = index % 2 === 0 ? '#FFF8DC' : '#fff';
-    itemDiv.textContent = `${index + 1}. ${item.name} - $${item.price} (${item.category})`;
-    container.appendChild(itemDiv);
-  });
-}
-
-// 3.4 Play Sounds
-// Author: Chingiz
-function playClickSound() {
-  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-  const oscillator = audioContext.createOscillator();
-  const gainNode = audioContext.createGain();
-  
-  oscillator.connect(gainNode);
-  gainNode.connect(audioContext.destination);
-  
-  oscillator.frequency.value = 800;
-  oscillator.type = 'sine';
-  
-  gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-  gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-  
-  oscillator.start(audioContext.currentTime);
-  oscillator.stop(audioContext.currentTime + 0.1);
-}
-
-function playSuccessSound() {
-  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-  const oscillator = audioContext.createOscillator();
-  const gainNode = audioContext.createGain();
-  
-  oscillator.connect(gainNode);
-  gainNode.connect(audioContext.destination);
-  
-  oscillator.frequency.value = 523.25; // C note
-  oscillator.type = 'sine';
-  
-  gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-  gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-  
-  oscillator.start(audioContext.currentTime);
-  oscillator.stop(audioContext.currentTime + 0.3);
-  
-  setTimeout(() => {
-    const osc2 = audioContext.createOscillator();
-    const gain2 = audioContext.createGain();
-    osc2.connect(gain2);
-    gain2.connect(audioContext.destination);
-    osc2.frequency.value = 659.25; // E note
-    gain2.gain.setValueAtTime(0.3, audioContext.currentTime);
-    gain2.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-    osc2.start(audioContext.currentTime);
-    osc2.stop(audioContext.currentTime + 0.3);
-  }, 150);
-}
-
-function playNotificationSound() {
-  const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-  const oscillator = audioContext.createOscillator();
-  const gainNode = audioContext.createGain();
-  
-  oscillator.connect(gainNode);
-  gainNode.connect(audioContext.destination);
-  
-  oscillator.frequency.value = 440;
-  oscillator.type = 'square';
-  
-  gainNode.gain.setValueAtTime(0.2, audioContext.currentTime);
-  gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
-  
-  oscillator.start(audioContext.currentTime);
-  oscillator.stop(audioContext.currentTime + 0.2);
-}
-
-// 3.5 Animations
-// Author: Sultan
-function animateElement(elementId) {
-  const element = document.getElementById(elementId);
-  if (!element) return;
-  
-  element.style.transition = 'all 0.5s ease';
-  element.style.transform = 'scale(1.1) rotate(2deg)';
-  
-  setTimeout(() => {
-    element.style.transform = 'scale(1) rotate(0deg)';
-  }, 500);
-}
-
-function slideInAnimation(elementId) {
-  const element = document.getElementById(elementId);
-  if (!element) return;
-  
-  element.style.transition = 'transform 0.6s ease-out';
-  element.style.transform = 'translateX(-100%)';
-  element.style.opacity = '0';
-  
-  setTimeout(() => {
-    element.style.transform = 'translateX(0)';
-    element.style.opacity = '1';
-  }, 100);
-}
-
-function bounceAnimation(elementId) {
-  const element = document.getElementById(elementId);
-  if (!element) return;
-  
-  element.style.transition = 'transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
-  element.style.transform = 'translateY(-20px)';
-  
-  setTimeout(() => {
-    element.style.transform = 'translateY(0)';
-  }, 300);
-}
-
-// ============================================
-// EXISTING FUNCTIONS (FROM PREVIOUS ASSIGNMENTS)
-// ============================================
-
-// TASK 5: Display Current Date and Time
+// ========================================
+// EXISTING CODE - TASK 5: Display Current Date and Time
+// ========================================
 // Author: Chingiz
 function updateDateTime() {
   const now = new Date();
@@ -630,12 +23,24 @@ function updateDateTime() {
   }
 }
 
-// TASK 4: Change Background Color
+if (document.getElementById('current-datetime')) {
+  updateDateTime();
+  setInterval(updateDateTime, 1000);
+}
+
+// ========================================
+// EXISTING CODE - TASK 4: Change Background Color
+// ========================================
 // Author: Chingiz
 function changeBackgroundColor() {
   const colors = [
-    '#f5f5f0', '#e8f4f8', '#fff5e6', '#f0e6ff',
-    '#e6ffe6', '#ffe6f0', '#fff9e6'
+    '#f5f5f0',
+    '#e8f4f8',
+    '#fff5e6',
+    '#f0e6ff',
+    '#e6ffe6',
+    '#ffe6f0',
+    '#fff9e6'
   ];
   
   const currentColor = document.body.style.backgroundColor || '#f5f5f0';
@@ -647,11 +52,16 @@ function changeBackgroundColor() {
   
   document.body.style.backgroundColor = newColor;
   document.body.style.transition = 'background-color 0.5s ease';
-  
-  playClickSound();
 }
 
-// TASK 1: Form Validation
+const bgButton = document.getElementById('bg-color-btn');
+if (bgButton) {
+  bgButton.addEventListener('click', changeBackgroundColor);
+}
+
+// ========================================
+// EXISTING CODE - TASK 1: Form Validation
+// ========================================
 // Author: Sultan
 function validateReservationForm(event) {
   event.preventDefault();
@@ -710,7 +120,7 @@ function validateReservationForm(event) {
   }
   
   if (isValid) {
-    playSuccessSound();
+    playSound('success');
     alert('Reservation submitted successfully! We will contact you shortly to confirm.');
     event.target.reset();
   }
@@ -734,7 +144,14 @@ function showError(inputElement, message) {
   }, { once: true });
 }
 
-// TASK 2: Accordion for FAQs
+const reservationForm = document.querySelector('#booking-header + .about-content + .contact-form');
+if (reservationForm) {
+  reservationForm.addEventListener('submit', validateReservationForm);
+}
+
+// ========================================
+// EXISTING CODE - TASK 2: Accordion for FAQs
+// ========================================
 // Author: Kaisar
 function initAccordion() {
   const accordionItems = document.querySelectorAll('.accordion-item');
@@ -754,20 +171,26 @@ function initAccordion() {
       if (!isActive) {
         item.classList.add('active');
         content.style.maxHeight = content.scrollHeight + 'px';
-        playClickSound();
+        playSound('click');
       }
     });
   });
 }
 
-// TASK 3: Popup Subscription Form
+if (document.querySelector('.accordion-item')) {
+  initAccordion();
+}
+
+// ========================================
+// EXISTING CODE - TASK 3: Popup Subscription Form
+// ========================================
 // Author: Kaisar
 function openPopup() {
   const popup = document.getElementById('subscription-popup');
   if (popup) {
     popup.style.display = 'flex';
     document.body.style.overflow = 'hidden';
-    playNotificationSound();
+    playSound('open');
   }
 }
 
@@ -792,170 +215,526 @@ function handleSubscription(event) {
     return;
   }
   
-  playSuccessSound();
+  playSound('success');
   alert('Thank you for subscribing! You will receive our newsletter soon.');
   emailInput.value = '';
   closePopup();
 }
 
-// ============================================
-// INITIALIZATION - Run when page loads
-// ============================================
+const subscribeBtn = document.getElementById('subscribe-btn');
+const closeBtn = document.getElementById('close-popup');
+const popupOverlay = document.getElementById('subscription-popup');
+const popupForm = document.getElementById('subscription-form');
 
-document.addEventListener('DOMContentLoaded', () => {
-  console.log('🍽️ God loves the Trinity - JavaScript Loaded Successfully!');
-  
-  // Initialize all features
-  initializeAllFeatures();
-  
-  // Start datetime updates
-  if (document.getElementById('current-datetime')) {
-    updateDateTime();
-    setInterval(updateDateTime, 1000);
-  }
-  
-  // Display time-based greeting
-  displayTimeBasedGreeting();
-  
-  // Initialize keyboard navigation
-  initializeKeyboardNavigation();
-  
-  // Setup image gallery
-  setupImageGallery();
-  
-  // Initialize rating system
-  initializeRatingSystem();
-  
-  // Initialize accordion
-  if (document.querySelector('.accordion-item')) {
-    initAccordion();
-  }
-  
-  // Setup contact form async
-  setupContactFormAsync();
-  
-  // Display menu highlights
-  displayMenuHighlights();
-  
-  console.log('✓ All features initialized successfully!');
-});
+if (subscribeBtn) {
+  subscribeBtn.addEventListener('click', openPopup);
+}
 
-function initializeAllFeatures() {
-  // Background color button
-  const bgButton = document.getElementById('bg-color-btn');
-  if (bgButton) {
-    bgButton.addEventListener('click', changeBackgroundColor);
+if (closeBtn) {
+  closeBtn.addEventListener('click', closePopup);
+}
+
+if (popupOverlay) {
+  popupOverlay.addEventListener('click', (e) => {
+    if (e.target === popupOverlay) {
+      closePopup();
+    }
+  });
+}
+
+if (popupForm) {
+  popupForm.addEventListener('submit', handleSubscription);
+}
+
+// ========================================
+// NEW FEATURE 1: Day/Night Theme Toggle
+// Assignment Requirement: Dynamic Style Changes
+// Author: Sultan
+// ========================================
+function toggleTheme() {
+  const body = document.body;
+  const themeBtn = document.getElementById('theme-toggle-btn');
+  
+  body.classList.toggle('night-theme');
+  
+  if (body.classList.contains('night-theme')) {
+    themeBtn.innerHTML = '☀️ Day Mode';
+  } else {
+    themeBtn.innerHTML = '🌙 Night Mode';
   }
   
-  // Theme toggle button
-  const themeToggle = document.getElementById('theme-toggle-btn');
-  if (themeToggle) {
-    themeToggle.addEventListener('click', toggleDayNightTheme);
-  }
+  playSound('click');
+}
+
+const themeToggleBtn = document.getElementById('theme-toggle-btn');
+if (themeToggleBtn) {
+  themeToggleBtn.addEventListener('click', toggleTheme);
+}
+
+// ========================================
+// NEW FEATURE 2: Star Rating System
+// Assignment Requirement: Manipulating Attributes
+// Author: Sultan
+// ========================================
+function initRatingSystem() {
+  const ratingContainers = document.querySelectorAll('.rating-container');
   
-  // Current time button
-  const timeButton = document.getElementById('show-time-btn');
-  if (timeButton) {
-    timeButton.addEventListener('click', displayCurrentTime);
-  }
-  
-  // Reset form button
-  const resetButton = document.getElementById('reset-form-btn');
-  if (resetButton) {
-    resetButton.addEventListener('click', resetAllForms);
-  }
-  
-  // Read more button
-  const readMoreBtn = document.getElementById('read-more-btn');
-  if (readMoreBtn) {
-    readMoreBtn.addEventListener('click', toggleReadMore);
-  }
-  
-  // Dynamic name input
-  const nameInput = document.getElementById('dynamic-name-input');
-  if (nameInput) {
-    nameInput.addEventListener('input', updateDynamicGreeting);
-  }
-  
-  // Restaurant info button
-  const infoButton = document.getElementById('show-info-btn');
-  if (infoButton) {
-    infoButton.addEventListener('click', showRestaurantInfo);
-  }
-  
-  // Menu filter buttons
-  const filterButtons = document.querySelectorAll('.menu-filter-btn');
-  filterButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const category = btn.dataset.category;
-      filterMenuByCategory(category);
+  ratingContainers.forEach(container => {
+    const stars = container.querySelectorAll('.star');
+    const ratingText = container.querySelector('.rating-text');
+    
+    stars.forEach((star, index) => {
+      star.addEventListener('click', () => {
+        stars.forEach(s => {
+          s.classList.remove('selected');
+          s.style.color = '#ddd';
+        });
+        
+        for (let i = 0; i <= index; i++) {
+          stars[i].classList.add('selected');
+          stars[i].style.color = '#FFD700';
+        }
+        
+        if (ratingText) {
+          ratingText.textContent = `Your rating: ${index + 1}/5 stars`;
+        }
+        
+        playSound('click');
+      });
+      
+      star.addEventListener('mouseenter', () => {
+        for (let i = 0; i <= index; i++) {
+          if (!stars[i].classList.contains('selected')) {
+            stars[i].style.color = '#FFD700';
+          }
+        }
+      });
+      
+      star.addEventListener('mouseleave', () => {
+        stars.forEach((s, i) => {
+          if (!s.classList.contains('selected')) {
+            s.style.color = '#ddd';
+          }
+        });
+      });
     });
   });
+}
+
+if (document.querySelector('.rating-container')) {
+  initRatingSystem();
+}
+
+// ========================================
+// NEW FEATURE 3: Keyboard Navigation
+// Assignment Requirement: Keyboard Event Handling
+// Author: Chingiz
+// ========================================
+function initKeyboardNavigation() {
+  const navLinks = document.querySelectorAll('.navigation a');
+  let currentIndex = 0;
   
-  // Reservation form
-  const reservationForm = document.querySelector('#booking-header + .about-content + .contact-form');
-  if (reservationForm) {
-    reservationForm.addEventListener('submit', validateReservationForm);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight') {
+      e.preventDefault();
+      currentIndex = (currentIndex + 1) % navLinks.length;
+      navLinks[currentIndex].focus();
+      navLinks[currentIndex].style.outline = '2px solid #8B4513';
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault();
+      currentIndex = (currentIndex - 1 + navLinks.length) % navLinks.length;
+      navLinks[currentIndex].focus();
+      navLinks[currentIndex].style.outline = '2px solid #8B4513';
+    } else if (e.key === 'Enter' && document.activeElement.tagName === 'A') {
+      e.preventDefault();
+      document.activeElement.click();
+    }
+  });
+  
+  navLinks.forEach((link, index) => {
+    link.addEventListener('blur', () => {
+      link.style.outline = 'none';
+    });
+  });
+}
+
+initKeyboardNavigation();
+
+// ========================================
+// NEW FEATURE 4: Language Selector with Switch
+// Assignment Requirement: Switch Statements
+// Author: Kaisar
+// ========================================
+const translations = {
+  en: {
+    welcome: 'Welcome to Divine Dining',
+    menu: 'Menu',
+    about: 'About Us',
+    contact: 'Contact',
+    reserve: 'Reservations'
+  },
+  ru: {
+    welcome: 'Добро пожаловать в Божественную Трапезу',
+    menu: 'Меню',
+    about: 'О нас',
+    contact: 'Контакты',
+    reserve: 'Бронирование'
+  },
+  kz: {
+    welcome: 'Құдайдың Үштігіне қош келдіңіз',
+    menu: 'Мәзір',
+    about: 'Біз туралы',
+    contact: 'Байланыс',
+    reserve: 'Брондау'
+  }
+};
+
+function changeLanguage(lang) {
+  switch(lang) {
+    case 'en':
+      updatePageLanguage(translations.en);
+      playSound('click');
+      break;
+    case 'ru':
+      updatePageLanguage(translations.ru);
+      playSound('click');
+      break;
+    case 'kz':
+      updatePageLanguage(translations.kz);
+      playSound('click');
+      break;
+    default:
+      console.log('Language not supported');
+  }
+}
+
+function updatePageLanguage(trans) {
+  const welcomeEl = document.querySelector('.banner-text h2');
+  if (welcomeEl) welcomeEl.textContent = trans.welcome;
+}
+
+const langSelector = document.getElementById('language-selector');
+if (langSelector) {
+  langSelector.addEventListener('change', (e) => {
+    changeLanguage(e.target.value);
+  });
+}
+
+// ========================================
+// NEW FEATURE 5: Load More Content
+// Assignment Requirement: Event Listeners on Buttons
+// Author: Chingiz
+// ========================================
+const additionalMenuItems = [
+  { name: 'Divine Pizza', desc: 'Wood-fired pizza with holy toppings', price: '$15.99' },
+  { name: 'Sacred Salad', desc: 'Fresh garden salad with divine dressing', price: '$9.99' },
+  { name: 'Blessed Soup', desc: 'Hearty soup made with love', price: '$7.50' }
+];
+
+function loadMoreMenuItems() {
+  const menuSection = document.querySelector('.menu-section');
+  if (!menuSection) return;
+  
+  additionalMenuItems.forEach(item => {
+    const menuItem = document.createElement('div');
+    menuItem.className = 'menu-item';
+    menuItem.innerHTML = `
+      <div>
+        <h3>${item.name}</h3>
+        <p>${item.desc}</p>
+      </div>
+      <span class="price">${item.price}</span>
+    `;
+    menuItem.style.opacity = '0';
+    menuItem.style.transform = 'translateY(20px)';
+    menuSection.appendChild(menuItem);
+    
+    setTimeout(() => {
+      menuItem.style.transition = 'all 0.5s ease';
+      menuItem.style.opacity = '1';
+      menuItem.style.transform = 'translateY(0)';
+    }, 100);
+  });
+  
+  const loadMoreBtn = document.getElementById('load-more-btn');
+  if (loadMoreBtn) {
+    loadMoreBtn.style.display = 'none';
   }
   
-  // Subscription popup
-  const subscribeBtn = document.getElementById('subscribe-btn');
-  const closeBtn = document.getElementById('close-popup');
-  const popupOverlay = document.getElementById('subscription-popup');
-  const popupForm = document.getElementById('subscription-form');
+  playSound('success');
+}
+
+const loadMoreBtn = document.getElementById('load-more-btn');
+if (loadMoreBtn) {
+  loadMoreBtn.addEventListener('click', loadMoreMenuItems);
+}
+
+// ========================================
+// NEW FEATURE 6: Greeting Based on Time
+// Assignment Requirement: Switch Statements
+// Author: Sultan
+// ========================================
+function displayTimeBasedGreeting() {
+  const greetingElement = document.getElementById('time-greeting');
+  if (!greetingElement) return;
   
-  if (subscribeBtn) {
-    subscribeBtn.addEventListener('click', openPopup);
+  const hour = new Date().getHours();
+  let greeting;
+  let timeOfDay;
+  
+  if (hour >= 5 && hour < 12) {
+    timeOfDay = 'morning';
+  } else if (hour >= 12 && hour < 17) {
+    timeOfDay = 'afternoon';
+  } else if (hour >= 17 && hour < 22) {
+    timeOfDay = 'evening';
+  } else {
+    timeOfDay = 'night';
   }
   
-  if (closeBtn) {
-    closeBtn.addEventListener('click', closePopup);
+  switch(timeOfDay) {
+    case 'morning':
+      greeting = '🌅 Good Morning! Start your day with our divine breakfast';
+      greetingElement.style.background = 'linear-gradient(135deg, #FFE4B5, #FFF8DC)';
+      break;
+    case 'afternoon':
+      greeting = '☀️ Good Afternoon! Join us for a delightful lunch';
+      greetingElement.style.background = 'linear-gradient(135deg, #FFD700, #FFA500)';
+      break;
+    case 'evening':
+      greeting = '🌆 Good Evening! Perfect time for dinner';
+      greetingElement.style.background = 'linear-gradient(135deg, #FF8C00, #FF6347)';
+      break;
+    case 'night':
+      greeting = '🌙 Good Night! We hope to see you tomorrow';
+      greetingElement.style.background = 'linear-gradient(135deg, #4B0082, #8B008B)';
+      greetingElement.style.color = '#fff';
+      break;
+    default:
+      greeting = 'Welcome to our restaurant!';
   }
   
-  if (popupOverlay) {
-    popupOverlay.addEventListener('click', (e) => {
-      if (e.target === popupOverlay) {
-        closePopup();
+  greetingElement.textContent = greeting;
+}
+
+if (document.getElementById('time-greeting')) {
+  displayTimeBasedGreeting();
+  setInterval(displayTimeBasedGreeting, 60000);
+}
+
+// ========================================
+// NEW FEATURE 7: Objects and Methods
+// Assignment Requirement: Objects and Methods
+// Author: Kaisar
+// ========================================
+const restaurant = {
+  name: 'God loves the Trinity',
+  location: '123 Divine Street',
+  capacity: 50,
+  currentGuests: 0,
+  
+  addGuest: function(number) {
+    if (this.currentGuests + number <= this.capacity) {
+      this.currentGuests += number;
+      this.updateDisplay();
+      return true;
+    }
+    return false;
+  },
+  
+  removeGuest: function(number) {
+    this.currentGuests = Math.max(0, this.currentGuests - number);
+    this.updateDisplay();
+  },
+  
+  updateDisplay: function() {
+    const displayElement = document.getElementById('capacity-display');
+    if (displayElement) {
+      displayElement.textContent = `Current Guests: ${this.currentGuests}/${this.capacity}`;
+      
+      const percentage = (this.currentGuests / this.capacity) * 100;
+      if (percentage >= 80) {
+        displayElement.style.color = '#d32f2f';
+      } else if (percentage >= 50) {
+        displayElement.style.color = '#ff9800';
+      } else {
+        displayElement.style.color = '#4caf50';
+      }
+    }
+  },
+  
+  getInfo: function() {
+    return `${this.name} located at ${this.location}. Capacity: ${this.capacity} guests.`;
+  }
+};
+
+const addGuestBtn = document.getElementById('add-guest-btn');
+const removeGuestBtn = document.getElementById('remove-guest-btn');
+
+if (addGuestBtn) {
+  addGuestBtn.addEventListener('click', () => {
+    if (restaurant.addGuest(1)) {
+      playSound('success');
+    } else {
+      alert('Restaurant is at full capacity!');
+      playSound('error');
+    }
+  });
+}
+
+if (removeGuestBtn) {
+  removeGuestBtn.addEventListener('click', () => {
+    restaurant.removeGuest(1);
+    playSound('click');
+  });
+}
+
+// ========================================
+// NEW FEATURE 8: Higher-Order Functions
+// Assignment Requirement: map, filter, forEach
+// Author: Chingiz
+// ========================================
+const menuItems = [
+  { name: 'Sacred Bruschetta', price: 8.99, category: 'appetizer', vegetarian: true },
+  { name: 'Trinity Pasta', price: 16.99, category: 'main', vegetarian: true },
+  { name: 'Blessed Burger', price: 14.50, category: 'main', vegetarian: false },
+  { name: 'Heavenly Salmon', price: 19.75, category: 'main', vegetarian: false },
+  { name: 'Angel Food Cake', price: 6.99, category: 'dessert', vegetarian: true }
+];
+
+function filterMenuByCategory(category) {
+  const filtered = menuItems.filter(item => item.category === category);
+  displayFilteredMenu(filtered);
+}
+
+function filterVegetarian() {
+  const filtered = menuItems.filter(item => item.vegetarian === true);
+  displayFilteredMenu(filtered);
+}
+
+function displayFilteredMenu(items) {
+  const container = document.getElementById('filtered-menu');
+  if (!container) return;
+  
+  container.innerHTML = '';
+  
+  items.forEach(item => {
+    const itemDiv = document.createElement('div');
+    itemDiv.className = 'filtered-menu-item';
+    itemDiv.innerHTML = `
+      <strong>${item.name}</strong> - $${item.price.toFixed(2)}
+      ${item.vegetarian ? '🌱' : ''}
+    `;
+    container.appendChild(itemDiv);
+  });
+  
+  playSound('click');
+}
+
+function applyDiscount(percentage) {
+  const discounted = menuItems.map(item => ({
+    ...item,
+    originalPrice: item.price,
+    price: item.price * (1 - percentage / 100)
+  }));
+  
+  return discounted;
+}
+
+const filterBtns = document.querySelectorAll('.filter-btn');
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const category = btn.dataset.category;
+    if (category === 'vegetarian') {
+      filterVegetarian();
+    } else {
+      filterMenuByCategory(category);
+    }
+  });
+});
+
+// ========================================
+// NEW FEATURE 9: Sound Effects
+// Assignment Requirement: Play Sounds
+// Author: Sultan
+// ========================================
+const sounds = {
+  click: new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBjGH0fPTgjMGHm7A7+OZTA4OVbXp5rJcFg1Ll+LzxW8lBzF+zPPdkTwIGmS76+mjUxEKQ5vj8rtoHQY2jtLz0n0vBSh7yfDdkz8KFly16OuwYBkLTZ3k88ZyJAc0g87z2I4+CRpkvO7omE0OD1K36+y2ZBoMTKXl9MJwJAc1idDz0X4yBSp+zPDblUEJF2G76+mjVBIMSp7i9L90JwcyhdDy1YU2Byh+0O/bmkUJGGO+7Oinoi0EM/0LkPZz9A=='),
+  success: new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBjGH0fPTgjMGHm7A7+OZTA4OVbXp5rJcFg1Ll+LzxW8lBzF+zPPdkTwIGmS76+mjUxEKQ5vj8rtoHQY2jtLz0n0vBSh7yfDdkz8KFly16OuwYBkLTZ3k88ZyJAc0g87z2I4+CRpkvO7omE0OD1K36+y2ZBoMTKXl9MJwJAc1idDz0X4yBSp+zPDblUEJF2G76+mjVBIMSp7i9L90JwcyhdDy1YU2Byh+0O/bmkUJGGO+7Oinoi0EM/0LkPZz9A=='),
+  error: new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBjGH0fPTgjMGHm7A7+OZTA4OVbXp5rJcFg1Ll+LzxW8lBzF+zPPdkTwIGmS76+mjUxEKQ5vj8rtoHQY2jtLz0n0vBSh7yfDdkz8KFly16OuwYBkLTZ3k88ZyJAc0g87z2I4+CRpkvO7omE0OD1K36+y2ZBoMTKXl9MJwJAc1idDz0X4yBSp+zPDblUEJF2G76+mjVBIMSp7i9L90JwcyhdDy1YU2Byh+0O/bmkUJGGO+7Oinoi0EM/0LkPZz9A=='),
+  open: new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwFJHfH8N2QQAoUXrTp66hVFApGn+DyvmwhBjGH0fPTgjMGHm7A7+OZTA4OVbXp5rJcFg1Ll+LzxW8lBzF+zPPdkTwIGmS76+mjUxEKQ5vj8rtoHQY2jtLz0n0vBSh7yfDdkz8KFly16OuwYBkLTZ3k88ZyJAc0g87z2I4+CRpkvO7omE0OD1K36+y2ZBoMTKXl9MJwJAc1idDz0X4yBSp+zPDblUEJF2G76+mjVBIMSp7i9L90JwcyhdDy1YU2Byh+0O/bmkUJGGO+7Oinoi0EM/0LkPZz9A==')
+};
+
+function playSound(type) {
+  if (sounds[type]) {
+    sounds[type].currentTime = 0;
+    sounds[type].volume = 0.3;
+    sounds[type].play().catch(e => console.log('Audio play failed:', e));
+  }
+}
+
+// ========================================
+// NEW FEATURE 10: Animations on Scroll
+// Assignment Requirement: Animations
+// Author: Chingiz
+// ========================================
+function initScrollAnimations() {
+  const animatedElements = document.querySelectorAll('.animate-on-scroll');
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
       }
     });
+  }, { threshold: 0.1 });
+  
+  animatedElements.forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(50px)';
+    el.style.transition = 'all 0.6s ease';
+    observer.observe(el);
+  });
+}
+
+initScrollAnimations();
+
+// ========================================
+// NEW FEATURE 11: Contact Form Submission
+// Assignment Requirement: Responding to Events with Callbacks
+// Author: Kaisar
+// ========================================
+const contactForm = document.querySelector('.contact-form');
+if (contactForm && !contactForm.id) {
+  contactForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const formData = {
+      name: document.getElementById('name').value,
+      email: document.getElementById('email').value,
+      phone: document.getElementById('phone').value,
+      subject: document.getElementById('subject').value,
+      message: document.getElementById('message').value
+    };
+    
+    // Simulate async submission
+    setTimeout(() => {
+      playSound('success');
+      alert('Thank you for your message! We will get back to you soon.');
+      contactForm.reset();
+    }, 500);
+  });
+}
+
+// ========================================
+// Initialize all features on page load
+// ========================================
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('All features initialized successfully!');
+  
+  // Initialize restaurant object display
+  if (document.getElementById('capacity-display')) {
+    restaurant.updateDisplay();
   }
-  
-  if (popupForm) {
-    popupForm.addEventListener('submit', handleSubscription);
-  }
-}
-
-// ============================================
-// UTILITY FUNCTIONS
-// ============================================
-
-// Function to add animation to any element
-function addPulseAnimation(elementId) {
-  const element = document.getElementById(elementId);
-  if (!element) return;
-  
-  element.style.animation = 'pulse 1s ease-in-out';
-  
-  setTimeout(() => {
-    element.style.animation = '';
-  }, 1000);
-}
-
-// Console log helper for debugging
-function logFeatureUsage(featureName) {
-  console.log(`✓ Feature used: ${featureName} at ${new Date().toLocaleTimeString()}`);
-}
-
-// Export functions for use in HTML (if needed)
-window.changeBackgroundColor = changeBackgroundColor;
-window.toggleDayNightTheme = toggleDayNightTheme;
-window.displayCurrentTime = displayCurrentTime;
-window.resetAllForms = resetAllForms;
-window.toggleReadMore = toggleReadMore;
-window.filterMenuByCategory = filterMenuByCategory;
-window.showRestaurantInfo = showRestaurantInfo;
-window.playClickSound = playClickSound;
-window.playSuccessSound = playSuccessSound;
-window.animateElement = animateElement;
-window.slideInAnimation = slideInAnimation;
-window.bounceAnimation = bounceAnimation;
+});
